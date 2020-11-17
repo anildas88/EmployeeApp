@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qb.repository.EmployeeMapper" >
+    <!--<cache />-->
+   <!-- <resultMap id="employee" type="com.qb.domain.Employee" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="designation" property="designation" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+    </resultMap>-->
+
+    <select id="findAllEmployees" resultType="com.qb.domain.Employee">
+        SELECT ID, NAME, DESIGNATION, EMAIL FROM EMPLOYEE
+    </select>
+
+    <select id="findById" resultType="com.qb.domain.Employee">
+        SELECT ID, NAME, DESIGNATION, EMAIL FROM EMPLOYEE WHERE ID = #{id}
+    </select>
+
+    <!--<insert id="addEmployee" parameterType="com.qb.domain.Employee">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE" statementType="PREPARED">
+           &lt;!&ndash; select CAST(RANDOM()*1000000 as INTEGER) a from SYSIBM.SYSDUMMY1&ndash;&gt;
+            select last_insert_id() as id
+        </selectKey>
+        insert into employee (name, designation, email) values(
+       &lt;!&ndash; #{employee.id},&ndash;&gt;
+        #{name},
+        #{designation},
+        #{email}
+        )
+    </insert>-->
+
+    <update id="updateEmployee"  parameterType="com.qb.domain.Employee">
+        update employee SET name = #{name}, designation = #{designation}, email = #{email}
+       <!-- where id = #{user.id}-->
+    </update>
+
+    <delete id="deleteEmployee">
+        delete from employee where id = #{id}
+    </delete>
+
+    <insert id="addEmployee" parameterType="com.qb.domain.Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into employee (id, name, designation, email) values(
+         #{id},
+        #{name},
+        #{designation},
+        #{email}
+        )
+    </insert>
+</mapper>
